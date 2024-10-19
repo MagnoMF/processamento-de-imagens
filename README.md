@@ -56,7 +56,7 @@ Aqui a frequência de pixels está mais à direita, próximo ou quase no 255, in
 ![Histograma circuito](readme_img/histograma_circuito.png)
 
 #### Imagem 3:
-Um ótimo exemplo de contraste. Podemos ver que as cores seguem uma linha de frequência mais alta em alguns trechos, formando quase uma linha reta.
+Um ótimo exemplo de saturação é a imagem da vila, que tem picos agrupados das cores RGB.
 
 ![Histograma vila](readme_img/histograma_village.png)
 
