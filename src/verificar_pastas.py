@@ -9,4 +9,4 @@ def verificar_ou_criar_pasta(pasta):
         except Exception as e:
             logger.log(f"Ocorreu um erro ao criar a pasta: {e}")
     else:
-        logger.log(f"A pasta '{pasta}' já existe.", level=2)
+        logger.warn(f"A pasta '{pasta}' já existe.")

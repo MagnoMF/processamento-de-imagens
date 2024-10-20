@@ -3,6 +3,7 @@ from matplotlib import pyplot as plt
 from carregar_imagens import carregar_imagens_da_pasta
 from verificar_pastas import verificar_ou_criar_pasta
 import logger
+import warnings
 import time
 
 def aplicar_suavizacao(imagem):
@@ -45,12 +46,12 @@ def processar_imagens(imagens, pasta_img_processadas):
         plt.savefig(pasta_img_processadas+"suavizacao_"+nome_arquivo)
         logger.log(f"Imagem salva: {pasta_img_processadas}suavizacao_{nome_arquivo}")
         
-         # Verifica se imagens podem ser exibidas
-        if(backend_plt in ['TkAgg', 'Qt5Agg', 'MacOSX']):
-            plt.show()
-        else:
-            logger.log("Sistema não permite exibição de imagens", 2)
-
+        # Tentar exibir imagem, se não conseguir manda apenas aviso
+        try:
+            with warnings.catch_warnings:
+                plt.show()
+        except Exception as e:
+            logger.warn("Sistema não permite exibição de imagens")
 
 def run_suavizacao(pasta_img='../img', pasta_img_processadas = '../img_processadas/'):
     verificar_ou_criar_pasta(pasta_img)
