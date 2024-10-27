@@ -18,8 +18,6 @@ def aplicar_detectores_de_borda(imagem):
     return bordas_canny, bordas_sobel
 
 def processar_imagens(imagens, pasta_img_processadas):
-    # Captura backend do matplotlib
-    backend_plt = plt.get_backend()
     for nome_arquivo, imagem in imagens:
         bordas_canny, bordas_sobel = aplicar_detectores_de_borda(imagem)
 
@@ -44,13 +42,7 @@ def processar_imagens(imagens, pasta_img_processadas):
         
         plt.savefig(pasta_img_processadas+"deteccao_bordas_"+nome_arquivo)
         logger.log(f"Imagem salva: {pasta_img_processadas}deteccao_bordas_{nome_arquivo}")
-        
-        # Tentar exibir imagem, se não conseguir manda apenas aviso
-        try:
-            with warnings.catch_warnings:
-                plt.show()
-        except Exception as e:
-            logger.warn("Sistema não permite exibição de imagens")
+        plt.show()
 
 
 def run_deteccao(pasta_img='../img', pasta_img_processadas = '../img_processadas/'):

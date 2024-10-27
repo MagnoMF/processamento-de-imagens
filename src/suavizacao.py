@@ -45,13 +45,7 @@ def processar_imagens(imagens, pasta_img_processadas):
         
         plt.savefig(pasta_img_processadas+"suavizacao_"+nome_arquivo)
         logger.log(f"Imagem salva: {pasta_img_processadas}suavizacao_{nome_arquivo}")
-        
-        # Tentar exibir imagem, se não conseguir manda apenas aviso
-        try:
-            with warnings.catch_warnings:
-                plt.show()
-        except Exception as e:
-            logger.warn("Sistema não permite exibição de imagens")
+        plt.show()
 
 def run_suavizacao(pasta_img='../img', pasta_img_processadas = '../img_processadas/'):
     verificar_ou_criar_pasta(pasta_img)

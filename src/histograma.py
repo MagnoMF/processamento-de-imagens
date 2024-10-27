@@ -10,8 +10,6 @@ def processar_imagens(imagens, pasta_img_processadas):
     for nome_arquivo, imagem in imagens:
         logger.log(f"Convertendo {nome_arquivo} para RGB")
         imagem = cv2.cvtColor(imagem, cv2.COLOR_BGR2RGB)
-        # Captura backend do matplotlib
-        backend_plt = plt.get_backend()
         canais = ('b', 'g', 'r')
         plt.figure(figsize=(8, 6))
         plt.subplot(1, 2, 1)
@@ -28,13 +26,7 @@ def processar_imagens(imagens, pasta_img_processadas):
             
         plt.savefig(pasta_img_processadas+"histograma_"+nome_arquivo)
         logger.log(f"Imagem salva: {pasta_img_processadas}histograma_{nome_arquivo}")
-
-        # Tentar exibir imagem, se não conseguir manda apenas aviso
-        try:
-            with warnings.catch_warnings:
-                plt.show()
-        except Exception as e:
-            logger.warn("Sistema não permite exibição de imagens")
+        plt.show()
      
 def run_histograma(pasta_img='../img', pasta_img_processadas = '../img_processadas/'):
     verificar_ou_criar_pasta(pasta_img)
