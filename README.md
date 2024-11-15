@@ -1,8 +1,83 @@
-# Introdução ao Processamento de Imagens com Python
+<h1 align="center">Processamento de Imagens com Python</h1>
+
+## Tópico
+
+- [Introdução](#introdução)
+- [Instalação](#instalação)
+- [Conversão de Imagens](#conversão-de-imagens-para-rgb-hsv--cinza)
+- [Suavização](#suavização-das-imagens)
+- [Análise de Histograma](#análise-de-histograma)
+- [Detecção de Bordas](#detecção-de-bordas)
+- [Detecção de Faces e Olhos](#detecção-face-e-olhos)
+
+## Introdução
 
 Nesta aplicação, exploraremos os fundamentos do processamento de imagens utilizando Python. O objetivo é compreender como essas técnicas funcionam e como podem ser aplicadas na área da ciência da computação. O processamento de imagens é uma disciplina essencial, com aplicações que vão desde a análise de imagens médicas até a visão computacional.
 
 Para isso, utilizaremos a biblioteca [OpenCV](https://docs.opencv.org/4.x/d6/d00/tutorial_py_root.html), muito utilizada no Python para processamento e análise de imagens, e o [Matplotlib](https://matplotlib.org/), para visualizar o resultado do processamento. Vamos utilizar essas bibliotecas para a [conversão de imagens](#conversão-de-imagens-para-rgb-hsv--cinza), [suavização](#suavização-das-imagens), [análise de histograma](#análise-de-histograma), [detecção de bordas](#detecção-de-bordas) e [detecção de faces e olhos](#detecção-face-e-olhos).
+
+
+## Instalação
+
+Para executar a aplicação no **Windows** ou **Linux**, é necessário seguir alguns passos para garantir que a instalação seja feita corretamente.
+
+### 1. **Instalar o Python**
+
+Caso você não tenha o Python 3 instalado, basta seguir o [tutorial de instalação](https://curso.grupysanca.com.br/pt/latest/instalacao.html).
+
+### 2. **Criar um ambiente virtual (virtualenv)**
+
+Para executar a aplicação, precisamos instalar algumas bibliotecas. Para garantir que essas bibliotecas não fiquem salvas diretamente em seu sistema, vamos criar um ambiente virtual reservado para elas. Consulte o tutorial de [instalação e ativação da virtualenv](https://docs.python.org/pt-br/3/library/venv.html).
+
+### 3. **Ativar o ambiente virtual**
+
+- **Linux**:
+
+```bash
+source nome_do_ambiente_virtual/bin/activate
+```
+
+- **Windows**:
+
+```bash
+nome_do_ambiente\Scripts\activate
+```
+
+Caso queira desativar o ambiente virtual, basta executar:
+
+```bash
+deactivate
+```
+
+### 4. **Instalar as bibliotecas Python**
+
+Agora vamos instalar as bibliotecas necessárias. Na pasta raiz do projeto, temos um arquivo chamado [requirements.txt](https://github.com/MagnoMF/processamento-de-imagens/blob/main/requirements.txt). Este arquivo contém todas as bibliotecas utilizadas na aplicação, então basta executar o comando abaixo para instalar as dependências a partir deste arquivo.
+
+Com o ambiente virtual ativado, execute:
+
+```bash
+pip install -r requirements.txt
+```
+
+Em **Linux**, talvez seja necessário instalar alguns pacotes adicionais para exibição das imagens. No entanto, caso não queira exibir as imagens, elas serão salvas na pasta **img_processadas**.
+
+```bash
+sudo apt-get install libfreetype6-dev libxft-dev
+```
+
+## Executando a aplicação
+
+Na pasta `src`, você pode executar o arquivo principal `run.py`:
+
+```bash
+python run.py
+```
+
+Caso prefira executar os arquivos separadamente, você também pode. Lembre-se de que os arquivos `carregar_imagens.py`, `logger.py` e `verificar_pastas.py` são apenas funções auxiliares, e executá-los separadamente não terá efeito algum.
+
+```bash
+python nome_arquivo.py
+```
 
 ## Conversão de imagens para RGB, HSV & Cinza
 

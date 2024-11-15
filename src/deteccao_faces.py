@@ -21,6 +21,8 @@ def detectar_faces(imagens, pasta_img_processadas):
                 for (ex, ey, ew, eh) in eyes:
                     cv2.rectangle(roi_color, (ex, ey), (ex + ew, ey + eh), (0, 0, 255), 2)
             cv2.imwrite(f"{pasta_img_processadas}/faces_{imagem[0]}", imagem[1])
+            plt.imshow(imagem[1])
+            plt.show()
         else:
             logger.warn(f"Em {imagem[0]} nenhuma face foi detectada")
     

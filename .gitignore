@@ -1,1 +1,55 @@
-venv
+# Bytecode Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Diretórios de ambiente virtual
+venv/
+env/
+*.env
+
+# Arquivos de configuração do IDE
+.idea/
+.vscode/
+
+# Arquivos de logs
+*.log
+
+# Arquivos de cache
+*.pyc
+*.pyo
+
+# Arquivos de banco de dados
+*.sqlite3
+
+# Arquivos de testes
+test_output/
+nosetests.xml
+coverage.xml
+*.cover
+*.hypothesis/
+
+# Arquivos de configuração do pip
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Arquivos de configuração do pytest
+*.coveragerc
+
+# Arquivos temporários do sistema operacional
+.DS_Store  # Para MacOS
+Thumbs.db  # Para Windows
+
+# Arquivos de pacotes
+*.tar.gz
+*.egg
+*.egg-info/
+
+# Diretórios de build
+build/
+dist/
+*.egg-info/
+
+# Dependências de pacotes
+*.bak
+/img_processadas
