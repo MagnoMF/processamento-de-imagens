@@ -2,7 +2,7 @@
 
 Nesta aplicação, exploraremos os fundamentos do processamento de imagens utilizando Python. O objetivo é compreender como essas técnicas funcionam e como podem ser aplicadas na área da ciência da computação. O processamento de imagens é uma disciplina essencial, com aplicações que vão desde a análise de imagens médicas até a visão computacional.
 
-Para isso, utilizaremos a biblioteca [OpenCV](https://docs.opencv.org/4.x/d6/d00/tutorial_py_root.html), muito utilizada no Python para processamento e análise de imagens, e o [Matplotlib](https://matplotlib.org/), para visualizar o resultado do processamento. Vamos utilizar essas bibliotecas para a [conversão de imagens](#conversão-de-imagens-para-rgb-hsv--cinza), [suavização](#suavização-das-imagens), [análise de histograma](#análise-de-histograma) e detecção de bordas.
+Para isso, utilizaremos a biblioteca [OpenCV](https://docs.opencv.org/4.x/d6/d00/tutorial_py_root.html), muito utilizada no Python para processamento e análise de imagens, e o [Matplotlib](https://matplotlib.org/), para visualizar o resultado do processamento. Vamos utilizar essas bibliotecas para a [conversão de imagens](#conversão-de-imagens-para-rgb-hsv--cinza), [suavização](#suavização-das-imagens), [análise de histograma](#análise-de-histograma), [detecção de bordas](#detecção-de-bordas) e [detecção de faces e olhos](#detecção-face-e-olhos).
 
 ## Conversão de imagens para RGB, HSV & Cinza
 
@@ -107,3 +107,93 @@ O método Sobel utiliza derivadas para calcular as mudanças de intensidade dos 
 - Menos preciso, com maior probabilidade de perder bordas fracas.
 
 ![Bordas vila](readme_img/deteccao_bordas_village.png)
+
+## Detecção Face e Olhos
+
+Para fazer a detecção de rosto e olhos utilizamos o algoritmo de Haarcascade (classificação em cascata), um algoritmo que detecta objetos baseado em suas caracteristicas visuais e aprendizado de máquina. A implementação do código pode ser vista no [código](https://github.com/MagnoMF/processamento-de-imagens/blob/main/src/deteccao_faces.py).
+
+O funcionamento do algoritmo é simples.
+
+1. Ele detecta os objetos de interesse, rostos, olhos, boca, etc.. utilizando o Cascade Classifier, que foi trinado utilizando AdaBoost utilizando várias exemplos de imagens com objetos de interesse e sem os objetos de interesse.
+
+2. Durante esse detecção de objetos ele divide a imagem em várias janelas pequenas e aplica o classificador para verificar se o objeto está presente.
+
+3. Para fazer a detecção dos objetos de tamanhos diferentes ele redimensiona a imagem várias vezes cirando uma pirâmede de escala, aplicando o classificador em cada escala.
+
+4. Ele classifica as regioões a serem analisadas de forma rápida e sem muitos critérios e depois analisa novamente as etapas selecionadas com um pouco mais de critério
+
+5. Por ultimo ele pega as janelas selecionadas e aplica a classificação para detectar os objetos presentes.
+
+Com tantas etapas o processo parece ser demorado, porém ele é rapido por conta de utilizar integrais da imagem que permite computar os pixeis em uma região de forma rápida e também por conta da eliminação das regiões que não interessam para o algorimo.
+
+Como nem tudo é perfeito o Haarcascade tem algumas limitações, como por exemplo a rotação da imagem, iluminação ou ruídos que podem atrapalhar.
+
+
+## Detecção de Rosto e Olhos com Haarcascade
+
+Para realizar a detecção de rostos e olhos, utilizamos o algoritmo **Haarcascade** (classificação em cascata), que detecta objetos com base em suas características visuais e aprendizado de máquina.
+
+### Funcionamento do Algoritmo
+
+1. **Treinamento do Cascade Classifier**  
+   O algoritmo detecta objetos de interesse (como rostos, olhos e boca) utilizando o *Cascade Classifier*, que foi treinado com o método [AdaBoost](#adaboost). Esse treinamento utiliza vários exemplos de imagens com e sem os objetos de interesse.
+
+2. **Janela de Busca**  
+   Durante a detecção, a imagem é dividida em várias janelas pequenas, e o classificador é aplicado em cada uma delas para verificar se o objeto está presente.
+
+3. **Pirâmide de Escala**  
+   Para detectar objetos de diferentes tamanhos, a imagem é redimensionada várias vezes, criando uma **pirâmide de escala**. O classificador é aplicado em cada uma dessas escalas.
+
+4. **Classificação em Etapas**  
+   As regiões da imagem são analisadas de forma rápida, utilizando critérios simples. As regiões que passam nessa análise inicial são revisadas com critérios mais rigorosos em etapas subsequentes.
+
+5. **Detecção Final**  
+   As janelas selecionadas são avaliadas detalhadamente para confirmar a presença dos objetos de interesse.
+
+### Desempenho
+
+Apesar de tantas etapas, o algoritmo é rápido devido a dois fatores:
+- **Integrais de Imagem**: Permitem calcular a soma de pixels em regiões específicas de forma eficiente.
+- **Eliminação de Regiões Não Relevantes**: Áreas que não contêm objetos de interesse são descartadas rapidamente.
+
+### Limitações
+
+Embora eficiente, o Haarcascade tem algumas limitações:
+- **Rotação da Imagem**: O algoritmo pode falhar se o objeto estiver inclinado ou em ângulos diferentes.
+- **Iluminação**: Variações de luz podem afetar a precisão.
+- **Ruídos na Imagem**: Elementos indesejados ou má qualidade da imagem podem interferir nos resultados.
+
+### AdaBoost
+O AdaBoost (abreviação de Adaptive Boosting) é um algoritmo de aprendizado de máquina baseado no conceito de ensemble learning. Ele combina vários "modelos fracos" (classificadores simples que têm desempenho ligeiramente melhor que um palpite aleatório) para criar um "modelo forte" que é altamente preciso.
+
+### Análise das imagens.
+
+Procurei uma imagem no Google em que tivesse várias pessoas para realizar o teste. Como a imagem tem várias pessoas, podemos fazer alguns testes com o fator de escala do código que será utilizado na pirâmide de escalas.
+
+Com o fator de escala *1.1* conseguimos detectar 4 rostos com o tempo de 0.37s.
+
+```
+scaleFactor = 1.1
+faces = face_cascade.detectMultiScale(imagem[1], scaleFactor, minNeighbors=5, minSize=(30, 30))
+```
+
+![Faces1.1](readme_img/faces_pessoas1-1.jpg)
+
+Com o ajuste do fator de escala, podemos optar por mais desempenho, porém menor precisão, ou maior precisão, porém menor desempenho, ou, no caso do fator que utilizamos acima, um equilíbrio entre os dois.
+
+Se optarmos por uma precisão maior, podemos utilizar um fator de escala menor. Com esse fator, encontramos 5 rostos, porém ele levará um tempo maior para fazer o processamento, passando de 0.37s para 0.54s.
+
+![Faces 1.05](readme_img/faces_pessoas1-05.jpg)
+
+Como estamos lidando com apenas 1 imagem, esta diferença não é muito significativa. Porém, em um sistema de autenticação por biometria facial, este tempo será significativo para a aplicação, tendo em vista que vamos comparar 1 imagem com outras mil imagens. Mas ainda assim, há maneiras de contornar isso deixando as imagens já pré-processadas em um banco de dados.
+
+```
+scaleFactor = 1.05
+faces = face_cascade.detectMultiScale(imagem[1], scaleFactor, minNeighbors=5, minSize=(30, 30))
+```
+
+Com esse fator de escala mais baixo, em algumas imagens o algoritmo pode classificar de forma errada algumas imagens, por exemplo.
+
+![Faces Aranha](readme_img/faces_aranha.jpg)
+
+Nesta imagem, ele classificou um ponto em que não há rosto algum.

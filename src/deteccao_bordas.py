@@ -3,7 +3,6 @@ import time
 from verificar_pastas import verificar_ou_criar_pasta
 from carregar_imagens import carregar_imagens_da_pasta
 import logger
-import warnings
 from matplotlib import pyplot as plt
 
 
